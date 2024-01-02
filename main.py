@@ -1,54 +1,74 @@
 # Clock in and track work hours
 from datetime import datetime
+import sys
 
-def invalidFunction():
-    print("Invalid Number")
+# Initializing Data
+running = True
 
 # Get and format the currewnt date and time
 now = datetime.now()
 dateAndTime = now.strftime("%d/%m/%y %H:%M")
 
-# Initializing variable
-clockedIn = False
-
 # Intitializing Data Base
-employeeData = {
-    123456: ["Justin Spanos"],
-    654321: ["Natalia Gorney"],
-    111111: ["Your Mom"],
-    }
-
 employeeData = {
     123456: {
         "name": "Justin Spanos",
         "isClockedIn": False,
+        "clockedInDate": 0,
         },
     654321: {
         "name": "Natalia Spanos",
         "isClockedIn": False,
+        "clockedInDate": 0,
         },
     111111: {
-                "name": "Yo Momma",
+        "name": "Yo Momma",
         "isClockedIn": False,
+        "clockedInDate": 0,
         }
     }
 
+# For Later
+employeeWorkWeekData = {
+    123456: { "Empty"
+        }
+    }
 
-employeeInUse = int(input("Enter Numbers: "))
+# Functions
+def invalidFunction():
+    print("Invalid Number")
 
-# Check if number is the correct length
-if(employeeInUse < 6 and employeeInUse > 6):
-    invalidFunction()
-# Check if the number is the correct number
-if(clockedIn == False):
-    if employeeInUse in employeeData:
-        print()
-        print("================")
-        print("  Clocked In")
-        print("      ", employeeData[employeeInUse]["name"])
-        print("Clocked in at:", dateAndTime)
-        print("================")
-        clockedIn = True
-elif(clockedIn == True):
-    invalidFunction()
+def clockIn():
+    print()
+
+def clockOut():
+    print()
+
+while(running == True):
+    employeeInUse = int(input("Enter Numbers: "))
+
+    # Check if number is the correct length
+    if(employeeInUse < 6 and employeeInUse > 6):
+        invalidFunction()
+    # Check if the number is the correct number
+    if(employeeData[employeeInUse]["isClockedIn"] == False):
+        if employeeInUse in employeeData:
+            employeeData[employeeInUse]["isClockedIn"] = True
+            print()
+            print("==================================")
+            print("           Clocked In")
+            print("        ", employeeData[employeeInUse]["name"])
+            print("   Clocked in at:", dateAndTime)
+            print("==================================")
+            print()
+            
+    elif(employeeData[employeeInUse]["isClockedIn"] == True):
+            employeeData[employeeInUse]["isClockedIn"] = False
+            print()
+            print("==================================")
+            print("           Clocked Out")
+            print("        ", employeeData[employeeInUse]["name"])
+            print("   Clocked out at:", dateAndTime)
+            print("==================================")
+            print()
 
