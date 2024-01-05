@@ -17,17 +17,17 @@ employeeData = {
     123456: {
         "name": "Justin Spanos",
         "isClockedIn": False,
-        "clockedInDate": 0,
+        "Hourly Rate": 17.75
         },
     654321: {
         "name": "Natalia Spanos",
         "isClockedIn": False,
-        "clockedInDate": 0,
+        "Hourly Rate": 18.00
         },
     111111: {
         "name": "Yo Momma",
         "isClockedIn": False,
-        "clockedInDate": 0,
+        "Hourly Rate": 15.70
         }
     }
 
@@ -51,6 +51,19 @@ employeeWorkWeekData = {
     }
 
 # Functions
+# loads data from a .txt file
+##try:
+##    with open("employeeWorkWeekData.txt", "r") as file:
+##        employeeData = str(file.read())
+##except FileNotFoundError:
+##    print("No data")
+##
+### save function
+##def saveData():
+##    with open("employeeWorkWeekData.txt", "w") as file:
+##        file.write(str(employeeWorkWeekData))
+
+# Prints invalid inputs
 def invalidFunction():
     print("Invalid Number")
 
