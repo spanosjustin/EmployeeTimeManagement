@@ -11,6 +11,7 @@ dateAndTime = now.strftime("%d/%m/%y %H:%M")
 shiftHour = 0
 shiftMinute = 0
 totalShift = 0
+weeklyHoursWorked = 0.00
 
 # Intitializing Data Base
 employeeData = {
@@ -36,17 +37,20 @@ employeeWorkWeekData = {
     123456: {
         "in":{},
         "out":{},
-        "shifts":{}
+        "shifts":{},
+        "total hours":{},
         },
     654321: {
         "in":{},
         "out":{},
-        "shifts":{}
+        "shifts":{},
+        "total hours":{},
         },
     111111: {
         "in":{},
         "out":{},
-        "shifts":{}
+        "shifts":{},
+        "total hours":{},
         }
     }
 
@@ -140,17 +144,33 @@ def shiftLength():
             employeeWorkWeekData[employeeInUse]["shifts"][x] = totalShift
             employeeWorkWeekData[employeeInUse]["shifts"][x]
     print(employeeWorkWeekData[employeeInUse]["shifts"][len(employeeWorkWeekData[employeeInUse]["shifts"])-1])
-            
+
+# add up and calculate the total hours of the week
+def totalWeeklyHours():
+    global employeeInUse
+    global employeeWorkWeekData
+    global weeklyHoursWorked
+    print()
+    employeeCalc = int(input("Enter Employee Numbers: "))
+    print()
+    for x in range(len(employeeWorkWeekData[employeeCalc]["shifts"]) + 1):
+        #if(x >= len(employeeWorkWeekData[employeeCalc]["shifts"])):
+        print(employeeWorkWeekData[employeeCalc]["shifts"][x])
+        print(weeklyHoursWorked)
+    
 
 while(running == True):
     employeeInUse = int(input("Enter Numbers: "))
 
     # Check if number is the correct length
-    if(employeeInUse < 6 and employeeInUse > 6):
+    if(employeeInUse < 6 and employeeInUse > 6 and employeeInUse != -1):
         invalidFunction()
     # Check if the number is the correct number
-    if(employeeData[employeeInUse]["isClockedIn"] == False):
+    if(employeeInUse != -1 and employeeData[employeeInUse]["isClockedIn"] == False):
         clockIn()
             
-    elif(employeeData[employeeInUse]["isClockedIn"] == True):
+    elif(employeeInUse != -1 and employeeData[employeeInUse]["isClockedIn"] == True):
         clockOut()
+        
+    elif(employeeInUse == -1):
+        totalWeeklyHours()
