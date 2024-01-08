@@ -10,14 +10,16 @@ li {
 }
 
 body {
+    background-color: #11083B;
+    color: #B1ABCF;
     font-family: Arial, sans-serif;
     line-height: 1.6;
 }
 
 /* Style the header */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #3D3175;
+    color: #DAD7E9;
     padding: 10px;
     text-align: center;
 }
@@ -35,10 +37,15 @@ section {
     margin-bottom: 20px;
 }
 
+/*
+.time-clock-function{
+
+}
+*/
 /* Style the footer */
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #3D3175;
+    color: #857CAF;
     padding: 10px;
     text-align: center;
     position: fixed;
