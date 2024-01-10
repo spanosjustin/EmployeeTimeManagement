@@ -52,3 +52,10 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.number-button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+  }
