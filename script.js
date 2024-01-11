@@ -9,7 +9,7 @@ let minute = currentDate.getMinutes();
 // declare other variables
 let testEmployeeNumber = 111111;
 
-let numPadInput;
+let employeeInput = [];
 
 
 
@@ -28,13 +28,19 @@ function printHelloWorld() {
  *
  */
 
+
 function printNumber(number) {
     // Get the output element by its ID
     var outputElement = document.getElementById("output");
+    var integerValue = parseInt(number, 10);
 
-    // Update the content with the clicked number
-    outputElement.textContent = "You clicked number " + number;
+    // Push the integer value into the employeeInput array
+    employeeInput.push(integerValue);
+
+    // Update the content with all elements of the employeeInput array
+    outputElement.textContent = "You clicked numbers: " + employeeInput.join(', ');
 }
+
 
 
 

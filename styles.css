@@ -37,11 +37,6 @@ section {
     margin-bottom: 20px;
 }
 
-/*
-.time-clock-function{
-
-}
-*/
 /* Style the footer */
 footer {
     background-color: #3D3175;
@@ -51,6 +46,12 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.time-clock{
+    background: #213155;
+    margin: 5% 20% 10% 20%;
+    padding: 3% 25%;
 }
 
 .number-button {
