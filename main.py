@@ -78,48 +78,14 @@ employeeWorkWeekData = {
 ##    with open("employeeWorkWeekData.txt", "w") as file:
 ##        file.write(str(employeeWorkWeekData))
 
+def listToInt(myInput):
+    myString = ''.join(myInput)
+    newInputNumber = int(myString)
+    return newInputNumber
+
 # Prints invalid inputs
 def invalidFunction():
     print("Invalid Number")
-
-def clockIn():
-    global employeeInUse
-    global employeeData
-    global employeeWorkWeekData
-    currentTime = datetime.now()
-    timeIn = currentTime.strftime("%d/%m/%y %H:%M")
-    if employeeInUse in employeeData:
-        employeeData[employeeInUse]["isClockedIn"] = True
-        print()
-        print("==================================")
-        print("           Clocked In")
-        print("        ", employeeData[employeeInUse]["name"])
-        print("   Clocked in at:", dateAndTime)
-        print("==================================")
-        print()
-        for x in range(len(employeeWorkWeekData[employeeInUse]["in"]) + 1):
-            if(x >= len(employeeWorkWeekData[employeeInUse]["in"])):
-                employeeWorkWeekData[employeeInUse]["in"][x] = timeIn
-
-def clockOut():
-    global employeeInUse
-    global employeeData
-    global employeeWorkWeekData
-    currentTime = datetime.now()
-    timeIn = currentTime.strftime("%d/%m/%y %H:%M")
-    if employeeInUse in employeeData:
-        employeeData[employeeInUse]["isClockedIn"] = False
-        recentShift = len(employeeWorkWeekData[employeeInUse]["shifts"])
-        print()
-        print("==================================")
-        print("           Clocked Out")
-        print("        ", employeeData[employeeInUse]["name"])
-        print("   Clocked out at:", dateAndTime)
-        print("==================================")
-        print()
-        for x in range(len(employeeWorkWeekData[employeeInUse]["out"]) + 1):
-            if(x >= len(employeeWorkWeekData[employeeInUse]["out"])):
-                employeeWorkWeekData[employeeInUse]["out"][x] = timeIn
 
 def shiftLength():
     global employeeInUse
@@ -187,59 +153,175 @@ def functioning():
 
 # display screen
 def display():
+
+    newInputNumber = 0
+
+    # variables
+    displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
+
+    def clearUserInput():
+        # function variables
+        nonlocal displayNum
+        nonlocal newInputNumber
+        # logic
+        userNumInput.clear()
+        newInputNumber = 0
+        # update display
+        w.delete(displayNum)
+        displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
+        return userNumInput, newInputNumber
+
+    def clockIn():
+        global employeeInUse
+        global employeeData
+        global employeeWorkWeekData
+        nonlocal newInputNumber
+        currentTime = datetime.now()
+        timeIn = currentTime.strftime("%d/%m/%y %H:%M")
+        if newInputNumber in employeeData:
+            employeeData[newInputNumber]["isClockedIn"] = True
+            print()
+            print("==================================")
+            print("           Clocked In")
+            print("        ", employeeData[newInputNumber]["name"])
+            print("   Clocked in at:", dateAndTime)
+            print("==================================")
+            print()
+            for x in range(len(employeeWorkWeekData[newInputNumber]["in"]) + 1):
+                if(x >= len(employeeWorkWeekData[newInputNumber]["in"])):
+                    employeeWorkWeekData[newInputNumber]["in"][x] = timeIn
+        clearUserInput()
+
+    def clockOut():
+        global employeeInUse
+        global employeeData
+        global employeeWorkWeekData
+        nonlocal newInputNumber
+        currentTime = datetime.now()
+        timeIn = currentTime.strftime("%d/%m/%y %H:%M")
+        if newInputNumber in employeeData:
+            employeeData[newInputNumber]["isClockedIn"] = False
+            recentShift = len(employeeWorkWeekData[newInputNumber]["shifts"])
+            print()
+            print("==================================")
+            print("           Clocked Out")
+            print("        ", employeeData[newInputNumber]["name"])
+            print("   Clocked out at:", dateAndTime)
+            print("==================================")
+            print()
+            for x in range(len(employeeWorkWeekData[newInputNumber]["out"]) + 1):
+                if(x >= len(employeeWorkWeekData[newInputNumber]["out"])):
+                    employeeWorkWeekData[newInputNumber]["out"][x] = timeIn
+        clearUserInput()
+
+    def buttonInputUpdate(num):
+        # function variables
+        nonlocal displayNum
+        nonlocal newInputNumber
+        # update variables
+        userNumInput.append(num)
+        newInputNumber = listToInt(userNumInput)
+        # update display
+        w.delete(displayNum)
+        displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
+    
     ## number button
+    def clockInClicked(*args):
+        clockIn()
+        
+    def clockOutClicked(*args):
+        clockOut()
+        
     def zeroClicked(*args):
-        userNumInput.append(0)
-        #w.delete(displayNum)
-        #displayNum = w.create_text(170, 45, text=variable, font=("Helvetica", 26))
+        buttonInputUpdate('0')
+
+    def oneClicked(*args):
+        buttonInputUpdate('1')
+
+    def twoClicked(*args):
+        buttonInputUpdate('2')
+
+    def threeClicked(*args):
+        buttonInputUpdate('3')
+
+    def fourClicked(*args):
+        buttonInputUpdate('4')
+
+    def fiveClicked(*args):
+        buttonInputUpdate('5')
+
+    def sixClicked(*args):
+        buttonInputUpdate('6')
+
+    def sevenClicked(*args):
+        buttonInputUpdate('7')
+
+    def eightClicked(*args):
+        buttonInputUpdate('8')
+
+    def nineClicked(*args):
+        buttonInputUpdate('9')
+
+    def clearClicked(*args):
+        clearUserInput()
+        
     
     #### NUMERICAL BUTTONS
-    ## clock in
-    w.create_rectangle(15, 500, 75, 575, outline="#36373b", fill="#36373b", tag="clockIn")
-    w.create_text(45, 537, text="In", font=("Helvetica", 24), tags="clockIn")
     ## zero
-    w.create_rectangle(100, 500, 160, 575, outline="#36373b", fill="#36373b", tag="zeroButton")
-    w.create_text(130, 537, text="0", font=("Helvetica", 26), tags="zeroButton")
-    ## clock out
-    w.create_rectangle(185, 500, 245, 575, outline="#36373b", fill="#36373b", tag="clockOut")
-    w.create_text(215, 537, text="Out", font=("Helvetica", 24), tags="clockOut")
+    w.create_rectangle(185, 500, 415, 575, outline="#36373b", fill="#36373b", tag="zeroButton")
+    w.create_text(300, 537, text="0", font=("Helvetica", 26), tags="zeroButton")
     
     ## one
-    w.create_rectangle(15, 400, 75, 475, outline="#36373b", fill="#36373b", tag="oneButton")
-    w.create_text(45, 437, text="1", font=("Helvetica", 26), tags="oneButton")
+    w.create_rectangle(185, 400, 245, 475, outline="#36373b", fill="#36373b", tag="oneButton")
+    w.create_text(215, 437, text="1", font=("Helvetica", 26), tags="oneButton")
     ## two
-    w.create_rectangle(100, 400, 160, 475, outline="#36373b", fill="#36373b", tag="twoButton")
-    w.create_text(130, 437, text="2", font=("Helvetica", 26), tags="twoButton")
+    w.create_rectangle(270, 400, 330, 475, outline="#36373b", fill="#36373b", tag="twoButton")
+    w.create_text(300, 437, text="2", font=("Helvetica", 26), tags="twoButton")
     ## three
-    w.create_rectangle(185, 400, 245, 475, outline="#36373b", fill="#36373b", tag="threeButton")
-    w.create_text(215, 437, text="3", font=("Helvetica", 26), tags="threeButton")
+    w.create_rectangle(355, 400, 415, 475, outline="#36373b", fill="#36373b", tag="threeButton")
+    w.create_text(385, 437, text="3", font=("Helvetica", 26), tags="threeButton")
 
     ####
     ## four
-    w.create_rectangle(15, 300, 75, 375, outline="#36373b", fill="#36373b", tag="fourButton")
-    w.create_text(45, 337, text="4", font=("Helvetica", 26), tags="fourButton")
+    w.create_rectangle(185, 300, 245, 375, outline="#36373b", fill="#36373b", tag="fourButton")
+    w.create_text(215, 337, text="4", font=("Helvetica", 26), tags="fourButton")
     ## five
-    w.create_rectangle(100, 300, 160, 375, outline="#36373b", fill="#36373b", tag="fiveButton")
-    w.create_text(130, 337, text="5", font=("Helvetica", 26), tags="fiveButton")
+    w.create_rectangle(270, 300, 330, 375, outline="#36373b", fill="#36373b", tag="fiveButton")
+    w.create_text(300, 337, text="5", font=("Helvetica", 26), tags="fiveButton")
     ## six
-    w.create_rectangle(185, 300, 245, 375, outline="#36373b", fill="#36373b", tag="sixButton")
-    w.create_text(215, 337, text="6", font=("Helvetica", 26), tags="sixButton")
+    w.create_rectangle(355, 300, 415, 375, outline="#36373b", fill="#36373b", tag="sixButton")
+    w.create_text(385, 337, text="6", font=("Helvetica", 26), tags="sixButton")
+    
     
     ####
     ## seven
-    w.create_rectangle(15, 200, 75, 275, outline="#36373b", fill="#36373b", tag="sevenButton")
-    w.create_text(45, 237, text="7", font=("Helvetica", 26), tags="sevenButton")
+    w.create_rectangle(185, 200, 245, 275, outline="#36373b", fill="#36373b", tag="sevenButton")
+    w.create_text(215, 237, text="7", font=("Helvetica", 26), tags="sevenButton")
     ## eight
-    w.create_rectangle(100, 200, 160, 275, outline="#36373b", fill="#36373b", tag="eightButton")
-    w.create_text(130, 237, text="8", font=("Helvetica", 26), tags="eightButton")
+    w.create_rectangle(270, 200, 330, 275, outline="#36373b", fill="#36373b", tag="eightButton")
+    w.create_text(300, 237, text="8", font=("Helvetica", 26), tags="eightButton")
     ## nine
-    w.create_rectangle(185, 200, 245, 275, outline="#36373b", fill="#36373b", tag="nineButton")
-    w.create_text(215, 237, text="9", font=("Helvetica", 26), tags="nineButton")
+    w.create_rectangle(355, 200, 415, 275, outline="#36373b", fill="#36373b", tag="nineButton")
+    w.create_text(385, 237, text="9", font=("Helvetica", 26), tags="nineButton")
+
+
+    ####
+    ## operational buttons
+    ## clock in
+    w.create_rectangle(440, 450, 500, 525, outline="#36373b", fill="#36373b", tag="clockIn")
+    w.create_text(470, 487, text="In", font=("Helvetica", 24), tags="clockIn")
+
+    ## clock out
+    w.create_rectangle(440, 350, 500, 425, outline="#36373b", fill="#36373b", tag="clockOut")
+    w.create_text(470, 387, text="Out", font=("Helvetica", 24), tags="clockOut")
+    
+    ## clear
+    w.create_rectangle(440, 250, 500, 325, outline="#36373b", fill="#36373b", tag="clearButton")
+    w.create_text(470, 287, text="CLR", font=("Helvetica", 24), tags="clearButton")
+    
 
     ## number utility
     w.tag_bind("zeroButton","<Button-1>",zeroClicked)
-    w.tag_bind("clockOut","<Button-1>",pointClicked)
-    w.tag_bind("clockIn","<Button-1>",pointClicked)
     
     w.tag_bind("oneButton","<Button-1>",oneClicked)
     w.tag_bind("twoButton","<Button-1>",twoClicked)
@@ -253,9 +335,12 @@ def display():
     w.tag_bind("eightButton","<Button-1>",eightClicked)
     w.tag_bind("nineButton","<Button-1>",nineClicked)
 
+    w.tag_bind("clearButton","<Button-1>",clearClicked)
+    w.tag_bind("clockOut","<Button-1>",clockOutClicked)
+    w.tag_bind("clockIn","<Button-1>",clockInClicked)
+
 display()
 
-#while(running == True):
 
     
         
