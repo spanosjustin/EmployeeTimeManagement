@@ -3,6 +3,7 @@ from datetime import datetime
 from tkinter import *
 import sys
 
+# set up the GUI
 master = Tk()
 master.title("Time Management")
 canvas_width = 600
@@ -78,6 +79,7 @@ employeeWorkWeekData = {
 ##    with open("employeeWorkWeekData.txt", "w") as file:
 ##        file.write(str(employeeWorkWeekData))
 
+# turns string input into an integer
 def listToInt(myInput):
     myString = ''.join(myInput)
     newInputNumber = int(myString)
@@ -87,6 +89,7 @@ def listToInt(myInput):
 def invalidFunction():
     print("Invalid Number")
 
+# Calculates length of shift
 def shiftLength():
     global employeeInUse
     global employeeWorkWeekData
@@ -135,6 +138,12 @@ def totalWeeklyHours():
         print(employeeWorkWeekData[employeeCalc]["shifts"][x])
         print(weeklyHoursWorked)
 
+#
+##
+# Will repurpose this into checking the length of user input
+##
+#
+
 def functioning():
     employeeInUse = int(input("Enter Numbers: "))
 
@@ -159,6 +168,7 @@ def display():
     # variables
     displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
 
+    # Clears user input and resets it to zero
     def clearUserInput():
         # function variables
         nonlocal displayNum
@@ -171,6 +181,7 @@ def display():
         displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
         return userNumInput, newInputNumber
 
+    # Clock in function
     def clockIn():
         global employeeInUse
         global employeeData
@@ -192,6 +203,7 @@ def display():
                     employeeWorkWeekData[newInputNumber]["in"][x] = timeIn
         clearUserInput()
 
+    # Clock out function
     def clockOut():
         global employeeInUse
         global employeeData
@@ -214,6 +226,7 @@ def display():
                     employeeWorkWeekData[newInputNumber]["out"][x] = timeIn
         clearUserInput()
 
+    # Updates and displays user input in real time
     def buttonInputUpdate(num):
         # function variables
         nonlocal displayNum
@@ -225,13 +238,7 @@ def display():
         w.delete(displayNum)
         displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
     
-    ## number button
-    def clockInClicked(*args):
-        clockIn()
-        
-    def clockOutClicked(*args):
-        clockOut()
-        
+    ## number buttons      
     def zeroClicked(*args):
         buttonInputUpdate('0')
 
@@ -261,6 +268,13 @@ def display():
 
     def nineClicked(*args):
         buttonInputUpdate('9')
+
+    # Function buttons
+    def clockInClicked(*args):
+        clockIn()
+        
+    def clockOutClicked(*args):
+        clockOut()
 
     def clearClicked(*args):
         clearUserInput()
@@ -339,6 +353,7 @@ def display():
     w.tag_bind("clockOut","<Button-1>",clockOutClicked)
     w.tag_bind("clockIn","<Button-1>",clockInClicked)
 
+# Calls the display function
 display()
 
 
