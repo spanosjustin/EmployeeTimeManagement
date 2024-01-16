@@ -19,11 +19,14 @@ running = True
 # Get and format the currewnt date and time
 now = datetime.now()
 dateAndTime = now.strftime("%d/%m/%y %H:%M")
+
+# variables
 shiftHour = 0
 shiftMinute = 0
 totalShift = 0
 weeklyHoursWorked = 0.00
 userNumInput = []
+utilityHeight = canvas_height / 5
 
 # Intitializing Data Base
 employeeData = {
@@ -167,6 +170,7 @@ def display():
 
     # variables
     displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
+    displayText = None
 
     # Clears user input and resets it to zero
     def clearUserInput():
@@ -178,7 +182,7 @@ def display():
         newInputNumber = 0
         # update display
         w.delete(displayNum)
-        displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
+        displayNum = w.create_text(canvas_width / 2, utilityHeight, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
         return userNumInput, newInputNumber
 
     # Clock in function
@@ -187,21 +191,19 @@ def display():
         global employeeData
         global employeeWorkWeekData
         nonlocal newInputNumber
+        nonlocal displayNum
+        nonlocal displayText
         currentTime = datetime.now()
         timeIn = currentTime.strftime("%d/%m/%y %H:%M")
         if newInputNumber in employeeData:
             employeeData[newInputNumber]["isClockedIn"] = True
-            print()
-            print("==================================")
-            print("           Clocked In")
-            print("        ", employeeData[newInputNumber]["name"])
-            print("   Clocked in at:", dateAndTime)
-            print("==================================")
-            print()
+            w.delete(displayNum)
+            displayText = w.create_text(canvas_width / 2, (utilityHeight/3) + 50, text="Clocked In \n{} \n{}".format(employeeData[newInputNumber]["name"], dateAndTime), tag="display_num", font=("Helvetica", 20), anchor="center")
             for x in range(len(employeeWorkWeekData[newInputNumber]["in"]) + 1):
                 if(x >= len(employeeWorkWeekData[newInputNumber]["in"])):
                     employeeWorkWeekData[newInputNumber]["in"][x] = timeIn
         clearUserInput()
+        w.delete(displayNum)
 
     # Clock out function
     def clockOut():
@@ -209,22 +211,20 @@ def display():
         global employeeData
         global employeeWorkWeekData
         nonlocal newInputNumber
+        nonlocal displayNum
+        nonlocal displayText
         currentTime = datetime.now()
         timeIn = currentTime.strftime("%d/%m/%y %H:%M")
         if newInputNumber in employeeData:
             employeeData[newInputNumber]["isClockedIn"] = False
             recentShift = len(employeeWorkWeekData[newInputNumber]["shifts"])
-            print()
-            print("==================================")
-            print("           Clocked Out")
-            print("        ", employeeData[newInputNumber]["name"])
-            print("   Clocked out at:", dateAndTime)
-            print("==================================")
-            print()
+            w.delete(displayNum)
+            displayText = w.create_text(canvas_width / 2, (utilityHeight/3) + 50, text="Clocked Out \n{} \n{} \n{}".format(employeeData[newInputNumber]["name"], dateAndTime, "Hours worked"), tag="display_num", font=("Helvetica", 20), anchor="center")
             for x in range(len(employeeWorkWeekData[newInputNumber]["out"]) + 1):
                 if(x >= len(employeeWorkWeekData[newInputNumber]["out"])):
                     employeeWorkWeekData[newInputNumber]["out"][x] = timeIn
         clearUserInput()
+        w.delete(displayNum)
 
     # Updates and displays user input in real time
     def buttonInputUpdate(num):
@@ -235,6 +235,7 @@ def display():
         userNumInput.append(num)
         newInputNumber = listToInt(userNumInput)
         # update display
+        w.delete(displayText)
         w.delete(displayNum)
         displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
     
