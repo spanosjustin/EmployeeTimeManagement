@@ -18,7 +18,7 @@ running = True
 
 # Get and format the currewnt date and time
 now = datetime.now()
-dateAndTime = now.strftime("%d/%m/%y %H:%M")
+dateAndTime = now.strftime("%d/%m/%y, %H:%M")
 
 # variables
 shiftHour = 0
@@ -172,15 +172,28 @@ def display():
     displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
     displayText = None
 
+    def checkInputLength(inputNum):
+        if(inputNum < 6 and inputNum > 6):
+            clearUserInput()
+
+    def resetUserInput():
+        nonlocal displayNum
+        nonlocal newInputNumber
+        userNumInput.clear()
+        newInputNumber = 0
+        return userNumInput, newInputNumber
+
     # Clears user input and resets it to zero
     def clearUserInput():
         # function variables
         nonlocal displayNum
         nonlocal newInputNumber
+        nonlocal displayText
         # logic
         userNumInput.clear()
         newInputNumber = 0
         # update display
+        w.delete(displayText)
         w.delete(displayNum)
         displayNum = w.create_text(canvas_width / 2, utilityHeight, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
         return userNumInput, newInputNumber
@@ -193,16 +206,19 @@ def display():
         nonlocal newInputNumber
         nonlocal displayNum
         nonlocal displayText
+        # check length of input
+        #checkInputLength(len(newInputNumber))
+        # logic
         currentTime = datetime.now()
         timeIn = currentTime.strftime("%d/%m/%y %H:%M")
         if newInputNumber in employeeData:
             employeeData[newInputNumber]["isClockedIn"] = True
             w.delete(displayNum)
-            displayText = w.create_text(canvas_width / 2, (utilityHeight/3) + 50, text="Clocked In \n{} \n{}".format(employeeData[newInputNumber]["name"], dateAndTime), tag="display_num", font=("Helvetica", 20), anchor="center")
+            displayText = w.create_text(canvas_width / 2, (utilityHeight/2) + 50, text="    Clocked In \n   {} \n {}".format(employeeData[newInputNumber]["name"], dateAndTime), tag="display_num", font=("Helvetica", 20), anchor="center")
             for x in range(len(employeeWorkWeekData[newInputNumber]["in"]) + 1):
                 if(x >= len(employeeWorkWeekData[newInputNumber]["in"])):
                     employeeWorkWeekData[newInputNumber]["in"][x] = timeIn
-        clearUserInput()
+        resetUserInput()
         w.delete(displayNum)
 
     # Clock out function
@@ -219,11 +235,11 @@ def display():
             employeeData[newInputNumber]["isClockedIn"] = False
             recentShift = len(employeeWorkWeekData[newInputNumber]["shifts"])
             w.delete(displayNum)
-            displayText = w.create_text(canvas_width / 2, (utilityHeight/3) + 50, text="Clocked Out \n{} \n{} \n{}".format(employeeData[newInputNumber]["name"], dateAndTime, "Hours worked"), tag="display_num", font=("Helvetica", 20), anchor="center")
+            displayText = w.create_text(canvas_width / 2, (utilityHeight/2) + 50, text="    Clocked Out \n  {} \n {} \n{}".format(employeeData[newInputNumber]["name"], dateAndTime, "Hours worked"), tag="display_num", font=("Helvetica", 20), anchor="center")
             for x in range(len(employeeWorkWeekData[newInputNumber]["out"]) + 1):
                 if(x >= len(employeeWorkWeekData[newInputNumber]["out"])):
                     employeeWorkWeekData[newInputNumber]["out"][x] = timeIn
-        clearUserInput()
+        resetUserInput()
         w.delete(displayNum)
 
     # Updates and displays user input in real time
@@ -239,7 +255,10 @@ def display():
         w.delete(displayNum)
         displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
     
-    ## number buttons      
+    ## number buttons
+    def managerClicked(*args):
+        buttonInputUpdate('0')
+        
     def zeroClicked(*args):
         buttonInputUpdate('0')
 
@@ -322,6 +341,10 @@ def display():
 
     ####
     ## operational buttons
+    # manager button
+    w.create_rectangle(100, 350, 160, 425, outline="#36373b", fill="#36373b", tag="managerButton")
+    w.create_text(130, 387, text="Mng", font=("Helvetica", 24), tags="managerButton")
+    
     ## clock in
     w.create_rectangle(440, 450, 500, 525, outline="#36373b", fill="#36373b", tag="clockIn")
     w.create_text(470, 487, text="In", font=("Helvetica", 24), tags="clockIn")
@@ -350,6 +373,7 @@ def display():
     w.tag_bind("eightButton","<Button-1>",eightClicked)
     w.tag_bind("nineButton","<Button-1>",nineClicked)
 
+    w.tag_bind("managerButton","<Button-1>",managerClicked)
     w.tag_bind("clearButton","<Button-1>",clearClicked)
     w.tag_bind("clockOut","<Button-1>",clockOutClicked)
     w.tag_bind("clockIn","<Button-1>",clockInClicked)
