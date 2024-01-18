@@ -69,6 +69,8 @@ employeeWorkWeekData = {
         }
     }
 
+managerNumbers = [123456]
+
 # Functions
 # loads data from a .txt file
 ##try:
@@ -86,11 +88,7 @@ employeeWorkWeekData = {
 def listToInt(myInput):
     myString = ''.join(myInput)
     newInputNumber = int(myString)
-    return newInputNumber
-
-# Prints invalid inputs
-def invalidFunction():
-    print("Invalid Number")
+    return newInputNumber    
 
 # Calculates length of shift
 def shiftLength():
@@ -171,10 +169,29 @@ def display():
     # variables
     displayNum = w.create_text(canvas_width / 2, canvas_height / 5, text=newInputNumber, tag="display_num", font=("Helvetica", 26), anchor="center")
     displayText = None
+    validInputLen = False
+
+    def managerAccess():
+        nonlocal newInputNumber
+        for x in range(len(managerNumbers)):
+                if(newInputNumber == managerNumbers[x]):
+                    secondWindow = Tk()
+                    secondWindow.title("Manager Screen")
+                    managerWin = Canvas(secondWindow, width=canvas_width, height=canvas_height/1.5, bg="#000000")
+                    managerWin.pack()
+
+    # Prints invalid inputs
+    def invalidFunction():
+        nonlocal displayText
+        nonlocal displayNum
+        w.delete(displayText)
+        w.delete(displayNum)
+        displayNum = w.create_text(canvas_width / 2, utilityHeight, text="Invalid Input", tag="display_num", font=("Helvetica", 26), anchor="center")
 
     def checkInputLength(inputNum):
         if(inputNum < 6 and inputNum > 6):
-            clearUserInput()
+            validInputLen == True
+        return validInputLen
 
     def resetUserInput():
         nonlocal displayNum
@@ -257,7 +274,7 @@ def display():
     
     ## number buttons
     def managerClicked(*args):
-        buttonInputUpdate('0')
+        managerAccess()
         
     def zeroClicked(*args):
         buttonInputUpdate('0')
