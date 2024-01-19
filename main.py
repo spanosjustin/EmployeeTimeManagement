@@ -171,6 +171,21 @@ def display():
     displayText = None
     validInputLen = False
 
+    def managerDisplay(windowInUse):
+        global employeeData
+        global employeeWorkWeekData
+        global shiftMinute
+        global shiftHour
+        global utilityHeight
+        tempHeight = utilityHeight
+        # Display Manager Information
+        for x in employeeWorkWeekData.keys():
+            windowInUse.create_text((canvas_width / 2), tempHeight, text="Employee Name: {} \nEmployee ID: {}".format(employeeData[x]["name"], x), tag="display_num", font=("Helvetica", 18), anchor="center")
+
+            for y in employeeWorkWeekData.keys():
+                windowInUse.create_text((canvas_width / 2), tempHeight, text="Times: \nIn: {}\nOut: {}\nShifts: {}\nTotal Hours: {}".format(employeeWorkWeekData[x]["in"], employeeWorkWeekData[x]["out"], employeeWorkWeekData[x]["shifts"],employeeWorkWeekData[x]["total hours"]), tag="display_num", font=("Helvetica", 18), anchor="center")
+            tempHeight = tempHeight + 80
+
     def managerAccess():
         nonlocal newInputNumber
         for x in range(len(managerNumbers)):
@@ -179,6 +194,7 @@ def display():
                     secondWindow.title("Manager Screen")
                     managerWin = Canvas(secondWindow, width=canvas_width, height=canvas_height/1.5, bg="#000000")
                     managerWin.pack()
+                    managerDisplay(managerWin)
 
     # Prints invalid inputs
     def invalidFunction():
