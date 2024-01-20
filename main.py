@@ -92,6 +92,7 @@ def listToInt(myInput):
 
 # Calculates length of shift
 def shiftLength():
+    print("entered function")
     global employeeInUse
     global employeeWorkWeekData
     global shiftMinute
@@ -125,19 +126,6 @@ def shiftLength():
             employeeWorkWeekData[employeeInUse]["shifts"][x] = totalShift
             employeeWorkWeekData[employeeInUse]["shifts"][x]
     print(employeeWorkWeekData[employeeInUse]["shifts"][len(employeeWorkWeekData[employeeInUse]["shifts"])-1])
-
-# add up and calculate the total hours of the week
-def totalWeeklyHours():
-    global employeeInUse
-    global employeeWorkWeekData
-    global weeklyHoursWorked
-    print()
-    employeeCalc = int(input("Enter Employee Numbers: "))
-    print()
-    for x in range(len(employeeWorkWeekData[employeeCalc]["shifts"]) + 1):
-        #if(x >= len(employeeWorkWeekData[employeeCalc]["shifts"])):
-        print(employeeWorkWeekData[employeeCalc]["shifts"][x])
-        print(weeklyHoursWorked)
 
 #
 ##
@@ -254,6 +242,18 @@ def display():
         resetUserInput()
         w.delete(displayNum)
 
+    # add up and calculate the total hours of the week
+    def totalWeeklyHours():
+        print("Entered totalWeeklyHours")
+        global employeeInUse
+        global employeeWorkWeekData
+        global weeklyHoursWorked
+        employeeCalc = int(input("Enter Employee Numbers: "))
+        for x in range(len(employeeWorkWeekData[employeeCalc]["shifts"]) + 1):
+            #if(x >= len(employeeWorkWeekData[employeeCalc]["shifts"])):
+            print(employeeWorkWeekData[employeeCalc]["shifts"][x])
+            print(weeklyHoursWorked)
+
     # Clock out function
     def clockOut():
         global employeeInUse
@@ -272,6 +272,7 @@ def display():
             for x in range(len(employeeWorkWeekData[newInputNumber]["out"]) + 1):
                 if(x >= len(employeeWorkWeekData[newInputNumber]["out"])):
                     employeeWorkWeekData[newInputNumber]["out"][x] = timeIn
+        totalWeeklyHours()
         resetUserInput()
         w.delete(displayNum)
 
